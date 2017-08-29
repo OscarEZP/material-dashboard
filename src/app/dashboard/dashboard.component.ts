@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
       durations = 500;
 
       chart.on('draw', function(data) {
-        if(data.type === 'line' || data.type === 'area') {
+        if (data.type === 'line' || data.type === 'area') {
           data.element.animate({
             d: {
               begin: 600,
@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
               easing: Chartist.Svg.Easing.easeOutQuint
             }
           });
-        } else if(data.type === 'point') {
+        } else if (data.type === 'point') {
               seq++;
               data.element.animate({
                 opacity: {
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
       delays2 = 80;
       durations2 = 500;
       chart.on('draw', function(data) {
-        if(data.type === 'bar'){
+        if (data.type === 'bar'){
             seq2++;
             data.element.animate({
               opacity: {
@@ -82,9 +82,9 @@ export class DashboardComponent implements OnInit {
           low: 0,
           high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-      }
+      };
 
-      var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+      const dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
 
       this.startAnimationForLineChart(dailySalesChart);
 
@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit {
           low: 0,
           high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-      }
+      };
 
       const completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
 
@@ -123,6 +123,8 @@ export class DashboardComponent implements OnInit {
 
         ]
       };
+
+      console.log(dataEmailsSubscriptionChart, 'data dash');
       const optionsEmailsSubscriptionChart = {
           axisX: {
               showGrid: false
