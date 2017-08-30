@@ -15,6 +15,9 @@ export class EstadisticasComponent implements OnInit {
   momentValue: any;
   totalImpacts: any;
   month: any;
+  color = 'primary';
+  showLoader: boolean = false;
+
 
   constructor(private estadisticasServices: EstadisticasServices) { }
   ngOnInit() {}
@@ -25,42 +28,27 @@ export class EstadisticasComponent implements OnInit {
 
   public getCharts() {
 
-      this.estadisticasServices.getStadisticsByMonth(moment(this.month).format('M'))
-          .subscribe(
-              response => this.chartTotalImpacts(response),
+      this.showLoader = true;
+      this.estadisticasServices.getStadistics(moment(this.month).format('M')).subscribe(
+              response => this.sendCharts(response),
               error => console.log(error, 'error')
           );
 
-      this.estadisticasServices.getStadisticsByWeek(moment(this.month).format('M'))
-          .subscribe(
-              response => this.chartTotalImpactsWeek(response),
-              error => console.log(error, 'error')
-          );
-
-      this.estadisticasServices.getStadisticsByFDS(moment(this.month).format('M'))
-          .subscribe(
-              response => this.chartTotalImpactsFDS(response),
-              error => console.log(error, 'error')
-          );
-
-      this.estadisticasServices.getStadisticsPromDay(moment(this.month).format('M'))
-          .subscribe(
-              response => this.chartTotalImpactsPromDay(response),
-              error => console.log(error, 'error')
-          );
-
-      this.estadisticasServices.getStadisticsPromDayWeek(moment(this.month).format('M'))
-          .subscribe(
-              response => this.chartTotalImpactsPromDayWeek(response),
-              error => console.log(error, 'error')
-          );
-
-      this.estadisticasServices.getStadisticsPromDayFDS(moment(this.month).format('M'))
-          .subscribe(
-              response => this.chartTotalImpactsPromDayFDS(response),
-              error => console.log(error, 'error')
-          );
   }
+
+    sendCharts(response: any) {
+      setTimeout(function () {
+          this.showLoader = false;
+          console.log(this.showLoader);
+      }, 1000);
+
+        this.chartTotalImpacts(response[0]);
+        this.chartTotalImpactsWeek(response[1]);
+        this.chartTotalImpactsFDS(response[2]);
+        this.chartTotalImpactsPromDay(response[3]);
+        this.chartTotalImpactsPromDayWeek(response[4]);
+        this.chartTotalImpactsPromDayFDS(response[5]);
+    }
 
     chartTotalImpacts(value: any) {
 
@@ -101,6 +89,7 @@ export class EstadisticasComponent implements OnInit {
 
         const emailsSubscriptionChart = new Chartist.Bar('#emailsSubscriptionChart',
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
+
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 
@@ -143,6 +132,8 @@ export class EstadisticasComponent implements OnInit {
 
         const emailsSubscriptionChart = new Chartist.Bar('#totalImpactsWeek',
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
+        // this.loaderByweek = true;
+
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 
@@ -185,6 +176,8 @@ export class EstadisticasComponent implements OnInit {
 
         const emailsSubscriptionChart = new Chartist.Bar('#chartTotalImpactsFDS',
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
+        // this.loaderByfds = true;
+
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 
@@ -227,6 +220,8 @@ export class EstadisticasComponent implements OnInit {
 
         const emailsSubscriptionChart = new Chartist.Bar('#chartTotalImpactsPromDay',
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
+        // this.loaderByday = true;
+
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 
@@ -269,6 +264,8 @@ export class EstadisticasComponent implements OnInit {
 
         const emailsSubscriptionChart = new Chartist.Bar('#chartTotalImpactsPromDayWeek',
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
+        // this.loaderBydayWeek = true;
+
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 
@@ -311,6 +308,8 @@ export class EstadisticasComponent implements OnInit {
 
         const emailsSubscriptionChart = new Chartist.Bar('#chartTotalImpactsPromDayFDS',
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
+        // this.loaderBydayfds = true;
+
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 

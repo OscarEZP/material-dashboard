@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
+import {MdProgressBarModule} from '@angular/material';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -21,6 +22,7 @@ import { MapsComponent } from './maps/maps.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { EstadisticasComponent } from './estadisticas/estadisticas.component';
     NotificationsComponent,
     UpgradeComponent,
     EstadisticasComponent,
+    LoaderComponent,
 
   ],
   imports: [
@@ -44,7 +47,8 @@ import { EstadisticasComponent } from './estadisticas/estadisticas.component';
     RouterModule,
     AppRoutingModule,
     DateTimePickerModule,
-    MomentModule
+    MomentModule,
+    MdProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
