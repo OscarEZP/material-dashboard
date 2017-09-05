@@ -73,6 +73,13 @@ export class EstadisticasServices {
 
 
     }
+
+    sendExcelStadistics(value: any) {
+        this.url = URL_BACKEND;
+        return this.http.post(`${this.url}api/estadisticas/generateExcel`, {'data': value}, {headers: this.headers})
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
 /*
     getStadisticsByMonth(month: any): Observable<any> {
         this.url = URL_BACKEND;

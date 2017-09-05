@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import * as moment from 'moment';
+import {LoaderService} from '../loader/loader.service';
 import {EstadisticasServices} from '../services/EstadisticasServices';
 
 
@@ -9,26 +10,29 @@ import {EstadisticasServices} from '../services/EstadisticasServices';
   selector: 'app-estadisticas',
   templateUrl: './estadisticas.component.html',
   styleUrls: ['./estadisticas.component.scss'],
-  providers: [EstadisticasServices],
+  providers: [EstadisticasServices, LoaderService],
 })
 export class EstadisticasComponent implements OnInit {
   momentValue: any;
   totalImpacts: any;
   month: any;
   color = 'primary';
-  showLoader: boolean = false;
+  showLoader = false;
+  showMonth: string;
+  impactsTotal: any;
+  showExel = false;
 
-
-  constructor(private estadisticasServices: EstadisticasServices) { }
+  constructor(private estadisticasServices: EstadisticasServices, private loaderServices: LoaderService) { }
   ngOnInit() {}
 
   public setMoment(month: any) {
     this.month = month;
+    this.showMonth = '';
   };
 
   public getCharts() {
-
-      this.showLoader = true;
+      this.showMonth = moment(this.month).format('MMMM');
+      this.showLoader = this.loaderServices.show();
       this.estadisticasServices.getStadistics(moment(this.month).format('M')).subscribe(
               response => this.sendCharts(response),
               error => console.log(error, 'error')
@@ -37,11 +41,8 @@ export class EstadisticasComponent implements OnInit {
   }
 
     sendCharts(response: any) {
-      setTimeout(function () {
-          this.showLoader = false;
-          console.log(this.showLoader);
-      }, 1000);
-
+        this.showExel = true;
+        this.showLoader = this.loaderServices.hide();
         this.chartTotalImpacts(response[0]);
         this.chartTotalImpactsWeek(response[1]);
         this.chartTotalImpactsFDS(response[2]);
@@ -51,7 +52,7 @@ export class EstadisticasComponent implements OnInit {
     }
 
     chartTotalImpacts(value: any) {
-
+        this.impactsTotal = value;
         const label = [];
         const series = [];
         console.log(value);
@@ -74,6 +75,7 @@ export class EstadisticasComponent implements OnInit {
             },
             low: 0,
             high: 100000,
+            referenceValue: 5,
             chartPadding: { top: 0, right: 100, bottom: 0, left: 10}
         };
         const responsiveOptions: any[] = [
@@ -91,6 +93,13 @@ export class EstadisticasComponent implements OnInit {
             this.totalImpacts, optionsTotalImpactsChart, responsiveOptions);
 
         this.startAnimationForBarChart(emailsSubscriptionChart);
+    }
+
+    sendExcel(data: string) {
+        this.estadisticasServices.sendExcelStadistics(data).subscribe(
+            response => console.log(response),
+            error => console.log(error)
+        );
     }
 
     chartTotalImpactsWeek(value: any) {

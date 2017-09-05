@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 import {MdProgressBarModule} from '@angular/material';
 
+
+
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
@@ -23,6 +25,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { LoaderComponent } from './loader/loader.component';
+
 
 @NgModule({
   declarations: [
