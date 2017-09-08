@@ -43,6 +43,7 @@ export class EstadisticasServices {
     getStadistics(month: any) {
         this.url = URL_BACKEND;
 
+
         const stadisticsByMonth = this.http.post(`${this.url}api/estadisticas`, {'month': month}, {headers: this.headers})
             .map(this.extractData)
             .catch(this.handleError);
@@ -68,10 +69,18 @@ export class EstadisticasServices {
             .map(this.extractData)
             .catch(this.handleError);
 
-        return Observable.forkJoin([stadisticsByMonth, stadisticsByWeek, stadisticsByFDS, stadisticsByPromDay, stadisticsByPromDayWeek, stadisticsByPromDayFDS ]);
+        return Observable.forkJoin([stadisticsByMonth, stadisticsByWeek,
+            stadisticsByFDS, stadisticsByPromDay, stadisticsByPromDayWeek, stadisticsByPromDayFDS ]);
 
 
 
+    }
+
+    getAllData(value: any) {
+        this.url = URL_BACKEND;
+        return this.http.post(`${this.url}api/estadisticas/month`, {'month': value})
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
     sendExcelStadistics(value: any) {
@@ -129,5 +138,4 @@ export class EstadisticasServices {
             .catch(this.handleError);
     }
 */
-   
 }

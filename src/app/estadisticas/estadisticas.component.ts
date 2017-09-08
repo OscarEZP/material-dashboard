@@ -28,6 +28,10 @@ export class EstadisticasComponent implements OnInit {
   public setMoment(month: any) {
     this.month = month;
     this.showMonth = '';
+    this.estadisticasServices.getAllData(moment(month).format('M')).subscribe(
+        response => console.log(response),
+        error => console.log(error, 'error')
+    );
   };
 
   public getCharts() {
@@ -95,8 +99,8 @@ export class EstadisticasComponent implements OnInit {
         this.startAnimationForBarChart(emailsSubscriptionChart);
     }
 
-    sendExcel(data: string) {
-        this.estadisticasServices.sendExcelStadistics(data).subscribe(
+    generateExcel() {
+        this.estadisticasServices.sendExcelStadistics(this.showMonth).subscribe(
             response => console.log(response),
             error => console.log(error)
         );
